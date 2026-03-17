@@ -21,11 +21,27 @@ ota:
 
 switch:
   - platform: gpio
+    id: door_unlock
     name: "Door unlock"
     pin: GPIO18
   - platform: gpio
+    id: doorbell
     name: "Door bell"
     pin: GPIO5
+
+script:
+  - id: unlock_door
+    mode: single
+    then:
+      - switch.turn_on: door_unlock
+      - delay: 5s
+      - switch.turn_off: door_unlock
+  - id: ring_bell
+    mode: single
+    then:
+      - switch.turn_on: doorbell
+      - delay: 0.5s
+      - switch.turn_off: doorbell
 
 wifi:
   ssid: !secret wifi_ssid
